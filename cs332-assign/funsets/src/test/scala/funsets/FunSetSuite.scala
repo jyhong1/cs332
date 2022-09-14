@@ -98,17 +98,46 @@ class FunSetSuite extends FunSuite {
        * the test fails. This helps identifying which assertion failed.
        */
       assert(contains(s1, 1), "Singleton")
+      /** add test case **/
       assert(contains(s2, 2), "Singleton")
       assert(contains(s3, 3), "Singleton")
     }
   }
 
-  ignore("union contains all elements") {
+  test("union contains all elements") {
     new TestSets {
       val s = union(s1, s2)
       assert(contains(s, 1), "Union 1")
       assert(contains(s, 2), "Union 2")
       assert(!contains(s, 3), "Union 3")
+    }
+  }
+
+  /** additional test case */
+  test("Intersect test") {
+    new TestSets {
+      val s = union(s1, s2)
+      val t = union(s2, s3)
+      val u = intersect(s, t)
+      assert(contains(u, 2), "Intersect 1")
+    }
+  }
+
+  test("Diff test") {
+    new TestSets {
+      val s = union(s1, s2)
+      val t = union(s2, s3)
+      val u = diff(s, t)
+      assert(contains(u, 1), "diff 1")
+    }
+  }
+
+  test("Map") {
+    new TestSets {
+      val s = union(s1, s2)
+      val t = union(s3, s)
+      val m = map(t, x => x - 1)
+      assert(!contains(m, 3), "map 1")
     }
   }
 }
